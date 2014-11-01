@@ -4,7 +4,7 @@
 from Sudoku import *
 
 if __name__ == '__main__':
-    sudoku = Sudoku.Sudoku([
+    sudoku = Sudoku([
         [0, 3, 5, 2, 9, 0, 8, 6, 4],
         [0, 8, 2, 4, 1, 0, 7, 0, 3],
         [7, 6, 4, 3, 8, 0, 0, 9, 0],

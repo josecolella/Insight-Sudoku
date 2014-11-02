@@ -13,6 +13,8 @@ import os.path
 class SudokuIO:
 
     """
+    Class that manages interaction with IO such as reading from files and
+    writing to files
     """
 
     def __init__(self):
@@ -41,11 +43,20 @@ class Sudoku:
 
     def __init__(self, sudokuPuzzle):
         """
-
         """
+        self.checkValidPuzzle(sudokuPuzzle)
+
         self.puzzle = np.array(sudokuPuzzle, dtype=np.uint8)
         self.subgroups = self.getSubGroups()
         self.decisionTree = self.buidDecisionTree()
+
+    def checkValidPuzzle(self, puzzle):
+        """
+        Checks if a puzzle is 9x9. Raises Exception if condition is not met
+        """
+        if np.array(puzzle).shape != (Sudoku.dimensions, Sudoku.dimensions):
+            raise Exception(
+                'A valid Sudoku puzzle is a 9x9 matrix. 9 rows, 9 columns')
 
     def isSolved(self):
         """
@@ -68,7 +79,8 @@ class Sudoku:
             with a list of [1,2,...9] denoting the initial possibilities for
             the blank element
         """
-        decisionTree = {row: {rowElement: np.arange(1, 10) for rowElement in np.where(i == 0)[0]} for i, row in zip(self.puzzle, np.arange(self.puzzle.shape[0]))}
+        decisionTree = {row: {rowElement: np.arange(1, 10) for rowElement in np.where(
+            i == 0)[0]} for i, row in zip(self.puzzle, np.arange(self.puzzle.shape[0]))}
         return decisionTree
 
     def group(self, row, element):
@@ -115,8 +127,10 @@ class Sudoku:
         rowElement -> int
             The index of the blank element
         """
-        possibilities = itertools.chain(self.puzzle[row], self.puzzle[:, rowElement], self.group(row, rowElement))
-        self.decisionTree[row][rowElement] = np.setdiff1d(self.decisionTree[row][rowElement], possibilities)
+        possibilities = itertools.chain(
+            self.puzzle[row], self.puzzle[:, rowElement], self.group(row, rowElement))
+        self.decisionTree[row][rowElement] = np.setdiff1d(
+            self.decisionTree[row][rowElement], possibilities)
         if len(self.decisionTree[row][rowElement]) == 1:
             self.puzzle[row][rowElement] = self.decisionTree[row][rowElement]
             self.decisionTree[row].pop(rowElement)

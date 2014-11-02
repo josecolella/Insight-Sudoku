@@ -16,7 +16,7 @@ if __name__ == '__main__':
     parser.add_option('-v', '--verbose', action="store_true", dest="verbose",
                       help="For a verbose output of the solving process")
     (options, args) = parser.parse_args()
-    if options.inputFile is None and options.outputFile is None:
+    if options.inputFile is None:
         parser.print_help()
     else:
         # Open the csv
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         # Verbose output
         if options.verbose:
             print("Solved puzzle")
-            print(sudoku.puzzle)
+        print(sudoku.puzzle)
         # if -o option selected
         if options.outputFile:
             sudokuIO.writeToFile(sudoku.puzzle, options.outputFile)

@@ -1,5 +1,6 @@
+# This script shows the bases for the algorithm
+
 import numpy as np
-import functools
 import itertools
 
 a = [

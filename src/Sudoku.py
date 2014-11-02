@@ -5,6 +5,7 @@ import itertools
 # In order to use deepcopy
 import copy
 
+
 class Sudoku:
     """
     """
@@ -12,7 +13,7 @@ class Sudoku:
     def __init__(self, sudokuPuzzle):
         """
         """
-        self.sudokuPuzzle = np.array(sudokuPuzzle)
+        self.sudokuPuzzle = np.array(sudokuPuzzle, dtype=np.uint8)
         self.subgroups = self.getSubGroups()
         self.decisionTree = self.buidDecisionTree()
 

@@ -7,6 +7,10 @@ Coding Deadline: November 3rd at 11pm
 
 Command line program
 --------------------
+I have chosen python3 as my primary development language, and I have built a
+simple command line program that allows the user to input csv files that contain
+a sudoku puzzle and solves the puzzle. The user can specify whether to save the solution
+in a CSV file or redirect to the stdout.
 
 !["Command line program"](http://cl.ly/image/3X1C0F3M3E1H/program.png)
 

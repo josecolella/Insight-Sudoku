@@ -101,7 +101,7 @@ class Sudoku:
         """
         for rowRange, groups in self.subgroups.items():
             if row in rowRange[0] and element in rowRange[1]:
-                return groups
+                return groups.flatten()
 
     def getSubGroups(self):
         """
@@ -111,10 +111,10 @@ class Sudoku:
         -------
         """
         subgroups = {}
-        for i, k in zip(range(0, 10, 3), range(3, 10, 3)):
-            for j, h in zip(range(0, 10, 3), range(3, 10, 3)):
-                subgroups[(range(i, k), range(j, h))] = np.reshape(
-                    self.puzzle[i:k, j:h], self.puzzle[i:k, j:h].size)
+        for startingRow, endingRow in zip(range(0, 10, 3), range(3, 10, 3)):
+            for startingCol, endingCol in zip(range(0, 10, 3), range(3, 10, 3)):
+                subgroups[(range(startingRow, endingRow), range(startingCol, endingCol))] = self.puzzle[
+                    startingRow:endingRow, startingCol:endingCol]
         return subgroups
 
     def reducePossibilities(self, row, rowElement):
@@ -136,7 +136,6 @@ class Sudoku:
             self.decisionTree[row].pop(rowElement)
         if len(self.decisionTree[row]) == 0:
             self.decisionTree.pop(row)
-        self.subgroups = self.getSubGroups()
 
     def solve(self):
         """

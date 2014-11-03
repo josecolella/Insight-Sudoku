@@ -15,10 +15,12 @@ import numpy as np
 
 
 class SudokuTestCase(unittest.TestCase):
+
     """
     Tests the validity of the solve() method on the challenge problem to
     check whether the solved puzzle matches the correct solution
     """
+
     def setUp(self):
         self.sudoku = Sudoku([
             [0, 3, 5, 2, 9, 0, 8, 6, 4],
@@ -56,10 +58,12 @@ class SudokuTestCase(unittest.TestCase):
 
 
 class SudokuTestCase2(unittest.TestCase):
+
     """
     Tests the validity of the solve() method of the Sudoku class to
     make sure that the ending puzzle matches the correct solution
     """
+
     def setUp(self):
         self.sudoku = Sudoku([
             [0, 0, 0, 0, 5, 6, 4, 0, 0],
@@ -127,6 +131,39 @@ class SudokuTestCase3(unittest.TestCase):
             [2, 1, 6, 4, 8, 3, 9, 5, 7],
             [9, 3, 8, 5, 7, 1, 6, 4, 2],
             [7, 4, 5, 6, 2, 9, 1, 8, 3],
+        ])
+        equality = {i == j for i, j in zip(
+            self.sudoku.puzzle.flatten(), solution.flatten())}
+        self.assertTrue(True in equality and False not in equality)
+
+
+class SudokuTestCase4(unittest.TestCase):
+
+    def setUp(self):
+        self.sudoku = Sudoku([
+            [2, 0, 6, 4, 0, 0, 0, 5, 3],
+            [0, 0, 0, 2, 7, 5, 0, 9, 6],
+            [5, 1, 7, 0, 3, 0, 0, 0, 4],
+            [0, 3, 9, 8, 0, 0, 5, 1, 0],
+            [7, 5, 0, 1, 0, 6, 3, 0, 0],
+            [1, 0, 0, 0, 5, 3, 0, 6, 2],
+            [0, 7, 0, 0, 6, 2, 4, 8, 0],
+            [0, 0, 1, 3, 4, 0, 2, 0, 5],
+            [4, 2, 8, 0, 1, 0, 6, 0, 0]
+        ])
+
+    def test_valid_solution(self):
+        self.sudoku.solve()
+        solution = np.array([
+            [2, 9, 6, 4, 8, 1, 7, 5, 3],
+            [8, 4, 3, 2, 7, 5, 1, 9, 6],
+            [5, 1, 7, 6, 3, 9, 8, 2, 4],
+            [6, 3, 9, 8, 2, 4, 5, 1, 7],
+            [7, 5, 2, 1, 9, 6, 3, 4, 8],
+            [1, 8, 4, 7, 5, 3, 9, 6, 2],
+            [3, 7, 5, 9, 6, 2, 4, 8, 1],
+            [9, 6, 1, 3, 4, 8, 2, 7, 5],
+            [4, 2, 8, 5, 1, 7, 6, 3, 9]
         ])
         equality = {i == j for i, j in zip(
             self.sudoku.puzzle.flatten(), solution.flatten())}

@@ -8,19 +8,17 @@ import copy
 import csv
 # to check if file is valid
 import os.path
+import operator
 
 
 class SudokuIO:
 
     """
     Class that manages interaction with IO such as reading from files and
-    writing to files
+    writing to files.
     """
-
-    def __init__(self):
-        pass
-
-    def readFromFile(self, filePathString):
+    @staticmethod
+    def readFromFile(filePathString):
         if os.path.isfile(filePathString):
             with open(filePathString) as csvfile:
                 sudokureader = csv.reader(
@@ -30,11 +28,21 @@ class SudokuIO:
             raise Exception(
                 "{file} doesn't exists".format(file=filePathString))
 
-    def writeToFile(self, solution, filePathString):
+    @staticmethod
+    def writeToFile(solution, filePathString):
         with open(filePathString, 'w', newline='') as csvfile:
             sudokuwriter = csv.writer(csvfile, delimiter=',')
             for i in range(Sudoku.dimensions):
                 sudokuwriter.writerow(solution[i].tolist())
+
+
+class InvalidSudokuPuzzleError(Exception):
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
 
 
 class Sudoku:
@@ -55,7 +63,7 @@ class Sudoku:
         Checks if a puzzle is 9x9. Raises Exception if condition is not met
         """
         if np.array(puzzle).shape != (Sudoku.dimensions, Sudoku.dimensions):
-            raise Exception(
+            raise InvalidSudokuPuzzleError(
                 'A valid Sudoku puzzle is a 9x9 matrix. 9 rows, 9 columns')
 
     def isSolved(self):
@@ -101,7 +109,7 @@ class Sudoku:
         """
         for rowRange, groups in self.subgroups.items():
             if row in rowRange[0] and element in rowRange[1]:
-                return groups.flatten()
+                return rowRange, groups.flatten()
 
     def getSubGroups(self):
         """
@@ -127,8 +135,10 @@ class Sudoku:
         rowElement -> int
             The index of the blank element
         """
+        groupRange, groupArray = self.group(row, rowElement)
+
         possibilities = itertools.chain(
-            self.puzzle[row], self.puzzle[:, rowElement], self.group(row, rowElement))
+            self.puzzle[row], self.puzzle[:, rowElement], groupArray)
         self.decisionTree[row][rowElement] = np.setdiff1d(
             self.decisionTree[row][rowElement], possibilities)
         if len(self.decisionTree[row][rowElement]) == 1:

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from Sudoku import Sudoku, SudokuIO
+from Sudoku import Sudoku
+from Sudoku import SudokuIO
 import optparse
 
 if __name__ == '__main__':
@@ -19,10 +20,8 @@ if __name__ == '__main__':
     if options.inputFile is None:
         parser.print_help()
     else:
-        # Open the csv
-        sudokuIO = SudokuIO()
         # Get file contents
-        sudokuPuzzle = sudokuIO.readFromFile(options.inputFile)
+        sudokuPuzzle = SudokuIO.readFromFile(options.inputFile)
         # Initialize Sudoku solver
         sudoku = Sudoku(sudokuPuzzle)
         #Verbose output
@@ -37,4 +36,4 @@ if __name__ == '__main__':
         print(sudoku.puzzle)
         # if -o option selected
         if options.outputFile:
-            sudokuIO.writeToFile(sudoku.puzzle, options.outputFile)
+            SudokuIO.writeToFile(sudoku.puzzle, options.outputFile)

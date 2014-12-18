@@ -48,3 +48,22 @@ def group(row, element):
 
 # print(a)
 # print(npArray)
+
+# The problem with this algorithm is that when a medium or hard sudoku
+# puzzle is given an infinite loop is started.
+#   tree copy and self.decisionTree are the same as no more
+#   possibilities can be reduced
+#
+# # Returns the index and the number of missing elements in the row for all the rows
+# b = [(index,len(elements)) for index, elements in a.items()]
+#
+# (i[0] for i in sorted(b,key=operator.itemgetter(1)))
+
+
+# Also take into consideration the 3 columns and rows
+# for i,j in a.items():
+#   a[i]   q[]
+#
+#
+#   >>> np.setdiff1d(a.decisionTree[1][8],itertools.chain(a.decisionTree[0][6], a.decisionTree[0][8],a.decisionTree[1][7],a.decisionTree[2][7]))
+#array([2])
